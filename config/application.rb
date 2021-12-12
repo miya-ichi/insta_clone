@@ -15,5 +15,19 @@ module InstaClone
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
+
+    # i18n関係
+    config.i18n.default_locale = :ja
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+
+    # ジェネレート時にいろいろ生成されないように
+    config.generators do |g|
+      g.skip_routes true
+      g.assets false
+      g.helper false
+      g.test_framework false
+    end
   end
 end
