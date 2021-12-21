@@ -12,5 +12,4 @@ html
     = render 'shared/flash_messages'
     - if logged_in?
       = link_to 'ログアウト', logout_path, method: :delete
-      = current_user.username
     = yield
