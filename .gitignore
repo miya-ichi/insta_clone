@@ -28,3 +28,6 @@
 
 # Ignore Gem files
 /vendor/bundle
+
+# Ignore database.yml
+/config/database.yml
