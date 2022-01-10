@@ -24,4 +24,6 @@ class Post < ApplicationRecord
 
   validates :body, presence: true, length: { maximum: 1000 }
   validates :images, presence: true
+
+  has_many :comments, dependent: :destroy
 end
