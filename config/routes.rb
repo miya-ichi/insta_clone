@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :comments
   end
   resources :likes, only: %i[create destroy]
+  resources :relationships, only: %i[create destroy]
 
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
