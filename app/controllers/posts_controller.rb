@@ -2,8 +2,14 @@ class PostsController < ApplicationController
   before_action :require_login, only: %i[new create edit update destroy]
 
   def index
-    @posts = Post.all.includes(:user).order(created_at: :desc).page(params[:page])
-    @users = User.all.order(created_at: :desc).limit(5)
+    @posts = if current_user
+               # ログインしている場合は、フォローしているユーザーと自分の投稿を取得する
+               current_user.feed.includes(:user).page(params[:page]).order(created_at: :desc)
+             else
+               # 未ログインの場合は全ての投稿を取得する
+               Post.all.includes(:user).page(params[:page]).order(created_at: :desc)
+             end 
+    @users = User.recent(5)
   end
 
   def new

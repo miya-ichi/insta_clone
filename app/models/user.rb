@@ -28,6 +28,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   # ユーザーがいいねした投稿をlikesテーブルを通して取得できるようにする
   has_many :like_posts, through: :likes, source: :post
+  # 架空のモデルactive_relationshipsを定義。実態はRelationshipsモデルとなる。
   has_many :active_relationships, class_name: 'Relationship',
                                   foreign_key: 'follower_id',
                                   dependent: :destroy
@@ -38,6 +39,8 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   # 先に定義したpassive_relationships（本体はRelationshipsテーブル）のfollower_idを通してフォローされているユーザーを取得できるように
   has_many :followers, through: :passive_relationships, source: :follower
+
+  scope :recent, ->(count) { order(created_at: :desc).limit(count) }
 
   def own?(object)
     id == object.user_id
@@ -65,5 +68,10 @@ class User < ApplicationRecord
 
   def following?(other_user)
     following.include?(other_user)
+  end
+
+  def feed
+    # フォローしているユーザーと自分の投稿を取得する
+    Post.where(user_id: following_ids << id)
   end
 end
