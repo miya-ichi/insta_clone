@@ -29,4 +29,10 @@ class Post < ApplicationRecord
   has_many :likes, dependent: :destroy
   # 投稿にいいねしたユーザーをlikesテーブルを通して取得できるようにする。
   has_many :like_users, through: :likes, source: :user
+
+  # 本文、コメント、ユーザー名に対する検索のスコープを定義
+  scope :body_contain, ->(word) { where('posts.body LIKE ?', "%#{word}%") }
+  # 投稿に関連付けたコメントやユーザー名を検索するのでテーブル同士を結合するjoinsメソッドを使う
+  scope :comment_body_contain, ->(word) { joins(:comments).where('comments.body LIKE ?', "%#{word}%") }
+  scope :username_contain, ->(word) { joins(:user).where('username LIKE ?', "%#{word)}%") }
 end
