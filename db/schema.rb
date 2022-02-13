@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_06_065610) do
+ActiveRecord::Schema.define(version: 2022_02_13_141350) do
+
+  create_table "actibities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.bigint "user_id"
+    t.integer "action_type", null: false
+    t.boolean "read", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subject_type", "subject_id"], name: "index_actibities_on_subject_type_and_subject_id"
+    t.index ["user_id"], name: "index_actibities_on_user_id"
+  end
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.text "body", null: false
@@ -69,6 +81,7 @@ ActiveRecord::Schema.define(version: 2022_02_06_065610) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "actibities", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "posts"
