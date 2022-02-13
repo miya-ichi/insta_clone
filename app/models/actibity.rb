@@ -21,6 +21,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Actibity < ApplicationRecord
-  belongs_to :subject
+  belongs_to :subject, polymorphic: true
   belongs_to :user
 end

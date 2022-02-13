@@ -22,6 +22,7 @@
 class Like < ApplicationRecord
   belongs_to :user
   belongs_to :post
+  has_one :activity, as: subject, dependent: :destroy
 
   # 一つの投稿に同じユーザーが複数回いいねができないようにする
   validates :user_id, uniqueness: { scope: :post_id }

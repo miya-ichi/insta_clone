@@ -42,6 +42,7 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   # 先に定義したpassive_relationships（本体はRelationshipsテーブル）のfollower_idを通してフォローされているユーザーを取得できるように
   has_many :followers, through: :passive_relationships, source: :follower
+  has_many :activities, dependent: :destroy
 
   scope :recent, ->(count) { order(created_at: :desc).limit(count) }
 
