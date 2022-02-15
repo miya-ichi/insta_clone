@@ -1,6 +1,6 @@
-class CreateActibities < ActiveRecord::Migration[5.2]
+class CreateActivities < ActiveRecord::Migration[5.2]
   def change
-    create_table :actibities do |t|
+    create_table :activities do |t|
       t.references :subject, polymorphic: true
       t.references :user, foreign_key: true
       t.integer :action_type, null: false

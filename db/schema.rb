@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2022_02_13_141350) do
 
-  create_table "actibities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
+  create_table "activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.string "subject_type"
     t.bigint "subject_id"
     t.bigint "user_id"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2022_02_13_141350) do
     t.boolean "read", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["subject_type", "subject_id"], name: "index_actibities_on_subject_type_and_subject_id"
-    t.index ["user_id"], name: "index_actibities_on_user_id"
+    t.index ["subject_type", "subject_id"], name: "index_activities_on_subject_type_and_subject_id"
+    t.index ["user_id"], name: "index_activities_on_user_id"
   end
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 2022_02_13_141350) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "actibities", "users"
+  add_foreign_key "activities", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "posts"
