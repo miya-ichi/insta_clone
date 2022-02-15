@@ -26,4 +26,12 @@ class Like < ApplicationRecord
 
   # 一つの投稿に同じユーザーが複数回いいねができないようにする
   validates :user_id, uniqueness: { scope: :post_id }
+
+  after_create_commit :create_activities
+
+  private
+  
+  def create_activities
+    Actibity.create(subject: self, user: post.user, action_type: :liked_to_own_post)
+  end
 end
