@@ -8,7 +8,7 @@ class PostsController < ApplicationController
              else
                # 未ログインの場合は全ての投稿を取得する
                Post.all.includes(:user).page(params[:page]).order(created_at: :desc)
-             end 
+             end
     @users = User.recent(5)
   end
 
