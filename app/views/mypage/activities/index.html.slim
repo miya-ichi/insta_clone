@@ -1,0 +1,9 @@
+- if @activities.present?
+  - @activities.each do |activity|
+    / activityモデルのaction_typeカラムの内容によって、表示するためのパーシャルを指定する
+    = render "#{activity.action_type}", activity: activity
+  = paginate @activities
+
+- else
+  .text-center
+    | お知らせはありません

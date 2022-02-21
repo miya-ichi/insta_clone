@@ -1,0 +1,13 @@
+/ もしこの通知が既読であれば、classにreadを指定して、既読用のCSSを適用する
+= link_to read_activity_path(activity), class: "dropdown-item border-bottom #{'read' if activity.read?}", method: :patch do
+  = image_tag activity.subject.user.avatar.url, class: 'rounded-circle mr-1', size: '30x30'
+  object
+    / いいねしたユーザーへのリンク(activity -> like -> user)
+    = link_to activity.subject.user.username, user_path(activity.subject.user)
+  | があなたの
+  object
+    / いいねされた投稿へのリンク(activity -> like -> post)
+    = link_to '投稿', post_path(activity.subject.post)
+  | にいいねしました
+  .text-right
+    = l activity.created_at, format: :short
