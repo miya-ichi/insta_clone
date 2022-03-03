@@ -3,7 +3,8 @@ class LikesController < ApplicationController
 
   def create
     @post = Post.find(params[:post_id])
-    current_user.like(@post)
+    # いいねの作成に成功したらメーラーを呼び出す。deliver_laterメソッドを使用することで、非同期でメールを送信する。
+    UserMailer.with(user_from: current_user, user_to: @post.user, post: @post).like_post.deliver_later if current_user.like(@post)
   end
 
   def destroy
