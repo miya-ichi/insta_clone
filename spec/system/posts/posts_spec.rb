@@ -117,8 +117,8 @@ RSpec.describe '投稿', type: :system do
   end
 
   describe 'ポスト詳細' do
-    let(:user) { create(:user) }
-    let(:post_by_user) { create(:post, user: user) }
+    let!(:user) { create(:user) }
+    let!(:post_by_user) { create(:post, user: user) }
 
     before do
       login_as user
@@ -127,6 +127,37 @@ RSpec.describe '投稿', type: :system do
     it '投稿の詳細画面が閲覧できること' do
       visit post_path(post_by_user)
       expect(current_path).to eq post_path(post_by_user)
+    end
+  end
+
+  describe 'いいね' do
+    let!(:user) { create(:user) }
+    let!(:post) { create(:post) }
+
+    before do
+      login_as user
+      user.follow(post.user)
+    end
+
+    it 'いいねができること' do
+      visit posts_path
+      expect {
+        within "#post-#{post.id}" do
+          find('.like-button').click
+          expect(page).to have_css '.unlike-button'
+        end
+      }.to change(user.like_posts, :count).by(1)
+    end
+
+    it 'いいねを取り消せること' do
+      user.like(post)
+      visit posts_path
+      expect {
+        within "#post-#{post.id}" do
+          find('.unlike-button').click
+          expect(page).to have_css '.like-button'
+        end
+      }.to change(user.like_posts, :count).by(-1)
     end
   end
 end
